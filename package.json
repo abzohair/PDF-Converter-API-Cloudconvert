@@ -1,0 +1,38 @@
+{
+  "name": "backend-recap",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "cross-env NODE_ENV=development node server.js",
+    "dev": "cross-env NODE_ENV=development nodemon server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@ffmpeg-installer/ffmpeg": "^1.1.0",
+    "@ffmpeg/core": "^0.12.10",
+    "@ffmpeg/ffmpeg": "^0.12.15",
+    "axios": "^1.13.2",
+    "bcrypt": "^6.0.0",
+    "cloudconvert": "^3.0.0",
+    "cloudinary": "^2.8.0",
+    "cors": "^2.8.5",
+    "cross-env": "^10.1.0",
+    "dotenv": "^17.2.1",
+    "express": "^5.1.0",
+    "file-type": "^16.5.4",
+    "form-data": "^4.0.5",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.17.0",
+    "multer": "^2.0.2",
+    "nodemon": "^3.1.10",
+    "pdf-lib": "^1.17.1",
+    "pdfkit": "^0.18.0",
+    "resend": "^6.9.2",
+    "sharp": "^0.34.3",
+    "slugify": "^1.6.6"
+  }
+}
