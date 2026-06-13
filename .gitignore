@@ -31,3 +31,6 @@ dist-ssr
 # HTTPS certs
 dev-cert-localhost.pem
 dev-key-localhost.pem
+
+# MY FILES JS
+generate-secret.js
