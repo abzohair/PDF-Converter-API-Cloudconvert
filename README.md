@@ -244,5 +244,4 @@ Bonnes pratiques recommandées :
 ---
 
 # Auteur
-https://abdellaoui-portfolio.vercel.app/
-Développé avec Node.js et CloudConvert pour fournir une API rapide et scalable de conversion et fusion PDF.
+Développé par https://abdellaoui-portfolio.vercel.app/ avec Node.js et CloudConvert pour fournir une API rapide et scalable de conversion et fusion PDF.
