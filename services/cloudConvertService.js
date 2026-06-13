@@ -1,9 +1,18 @@
-const crypto = require('crypto');
+const path = require('path');
 const Cloudconvert = require('cloudconvert');
 const FormData = require('form-data');
 const axios = require('axios');
 
 const cloudConvert = new Cloudconvert(process.env.CLOUDCONVERT_API_KEY);
+
+function sanitizeFilename(file) {
+    const nameFromBuffer = Buffer.from(file, 'latin1').toString('utf8');
+
+    return path.parse(nameFromBuffer).name
+        .normalize('NFD').trim()
+        .replace(/[<>:"/\\|?*\x00-\x1F]/g, '') // supprime caractères dangereux Windows + control chars
+        .replace(/[\s-]+/g, '-'); // espaces + tirets → -
+};
 
 const cloudConvertPDF = async (files) => {
 
@@ -11,7 +20,11 @@ const cloudConvertPDF = async (files) => {
 
         files.map(async file => {
 
-            const extension = file.originalname.split('.').pop().toLowerCase();
+            const fileName = sanitizeFilename(file.originalname);
+            const extname = path.extname(file.originalname);
+            const uploadFileName = `${fileName}.${extname}`
+
+            const extension = uploadFileName.split('.').pop().toLowerCase();
 
             const jobs = await cloudConvert.jobs.create({
                 tasks: {
@@ -36,7 +49,7 @@ const cloudConvertPDF = async (files) => {
             // Vérification de sécurité pour éviter le crash
             if (!uploadTask?.result?.form) throw new Error("CloudConvert n'a pas généré l'URL d'upload");
 
-            const form = uploadTask.result?.form;
+            const form = uploadTask.result?.form
 
             // préparation upload
             const formData = new FormData();
@@ -45,7 +58,7 @@ const cloudConvertPDF = async (files) => {
             Object.entries(form.parameters).forEach(([key, value]) => formData.append(key, value));
 
             //fichier
-            formData.append('file', file.buffer, file.originalname);
+            formData.append('file', file.buffer, uploadFileName);
 
             //upload vers cloudconvert
             await axios.post(form.url, formData, {
@@ -58,7 +71,13 @@ const cloudConvertPDF = async (files) => {
         })
 
     );
-    return result;
+    const finalResult = result;
+    console.dir(finalResult, {
+        depth: null,
+        colors: true
+    });
+
+    return finalResult;
 
 };
 

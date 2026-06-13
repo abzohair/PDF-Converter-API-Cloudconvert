@@ -7,4 +7,6 @@ const router = express.Router();
 
 router.post('/convert', upload, convertCtrl.createPDF);
 
+router.get('/convert/:id', convertCtrl.getPDFs);
+
 module.exports = router;
