@@ -238,7 +238,7 @@ Bonnes pratiques recommandées :
 * Déployer une DATABASE
 * Authentification JWT
 * Historique des conversions
-* Stockage des PDF sur AWS S3
+* Stockage des PDF sur AWS
 * Suppression automatique des fichiers temporaires
 
 ---
