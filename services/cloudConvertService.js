@@ -3,16 +3,18 @@ const Cloudconvert = require('cloudconvert');
 const FormData = require('form-data');
 const axios = require('axios');
 
+const { sanitizeFilename } = require('./sanitizeService');
+
 const cloudConvert = new Cloudconvert(process.env.CLOUDCONVERT_API_KEY);
 
-function sanitizeFilename(file) {
-    const nameFromBuffer = Buffer.from(file, 'latin1').toString('utf8');
+// function sanitizeFilename(file) {
+//     const nameFromBuffer = Buffer.from(file, 'latin1').toString('utf8');
 
-    return path.parse(nameFromBuffer).name
-        .normalize('NFD').trim()
-        .replace(/[<>:"/\\|?*\x00-\x1F]/g, '') // supprime caractères dangereux Windows + control chars
-        .replace(/[\s-]+/g, '-'); // espaces + tirets → -
-};
+//     return path.parse(nameFromBuffer).name
+//         .normalize('NFD').trim()
+//         .replace(/[<>:"/\\|?*\x00-\x1F]/g, '') // supprime caractères dangereux Windows + control chars
+//         .replace(/[\s-]+/g, '-'); // espaces + tirets → -
+// };
 
 const cloudConvertPDF = async (files) => {
 

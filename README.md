@@ -104,7 +104,7 @@ nodemon server
 Créer un fichier `.env` :
 
 ```env
-PORT=3000
+PORT = process.env.PORT || 4000
 
 CLOUDCONVERT_API_KEY=your_cloudconvert_api_key
 ```
@@ -158,31 +158,6 @@ GET /api/pdf/:id
 
 ```http
 GET /api/pdf/123456789
-```
-
----
-
-## Réponse si le fichier est prêt
-
-```json
-{
-  "message": "PDF envoyé avec succès !",
-  "success": true,
-  "filename": "document.pdf",
-  "url": "https://storage.cloudconvert.com/..."
-}
-```
-
----
-
-## Réponse si le traitement est encore en cours
-
-```json
-{
-  "success": true,
-  "status": "processing",
-  "message": "Fichier pas encore prêt !"
-}
 ```
 
 ---

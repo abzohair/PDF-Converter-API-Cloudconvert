@@ -2,6 +2,9 @@ const crypto = require('crypto');
 const Cloudconvert = require('cloudconvert');
 const FormData = require('form-data');
 const axios = require('axios');
+const path = require('path')
+
+const { sanitizeFilename } = require('./sanitizeService');
 
 const cloudConvert = new Cloudconvert(process.env.CLOUDCONVERT_API_KEY);
 
@@ -12,7 +15,11 @@ const cloudConvertMergePDF = async (files) => {
 
     files.forEach((file, index) => {
 
-        const extension = file.originalname.split('.').pop().toLowerCase();
+        const fileName = sanitizeFilename(file.originalname);
+        const extname = path.extname(file.originalname);
+        const uploadFileName = `${fileName}.${extname}`;
+        const extension = uploadFileName.split('.').pop().toLowerCase();
+
         // upload
         tasks[`import-${index}`] = {
             operation: 'import/upload'
@@ -44,8 +51,12 @@ const cloudConvertMergePDF = async (files) => {
     for (let i = 0; i < files.length; i++) {
         const file = files[i];
 
+        const fileName = sanitizeFilename(file.originalname);
+        const extname = path.extname(file.originalname);
+        const uploadFileName = `${fileName}.${extname}`;
+
         //trouver l'import d'abord
-        const uploadTasks = job.tasks.find(t => t.name === `import-${index}`);
+        const uploadTasks = job.tasks.find(t => t.name === `import-${i}`);
         if (!uploadTasks.result?.form) {
             throw new Error("Le serveur CloudConvert n'a pas encore généré l'URL d'upload. Réessayez.")
         };
@@ -56,7 +67,7 @@ const cloudConvertMergePDF = async (files) => {
 
         Object.entries(form.parameters).forEach(([key, value]) => formData.append(key, value));
 
-        formData.append('file', file.buffer, file.originalname);
+        formData.append('file', file.buffer, uploadFileName);
 
         await axios.post(form.url, formData, {
             headers: formData.getHeaders()

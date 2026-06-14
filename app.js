@@ -2,11 +2,10 @@ require("dotenv").config();
 const express = require('express');
 const cors = require('cors');
 
-const connectDB = require('./db/mogoDB');
 const fileRouter = require('./routes/fileConveft');
 
 const app = express();
-connectDB();
+
 // app.get('/health', (req, res) => { res.status(200).send({ message: 'OK !' }) }); // route for uptimerobot
 
 app.use(express.json());
